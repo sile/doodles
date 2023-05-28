@@ -712,6 +712,10 @@ registerProcessor("pagurus-audio-worklet-processor", PagurusAudioWorkletProcesso
           if (options.disableSaveWorkspaceButton) {
               game.command(system, "disableSaveWorkspaceButton", new Uint8Array());
           }
+          if (options.workspace) {
+              this.game.command(this.system, "loadWorkspace", options.workspace);
+              this.gameStateVersion = this.stateVersion();
+          }
           this.parent.postMessage({ type: "ready" });
       }
       handleMessage(msg) {

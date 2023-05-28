@@ -1,10 +1,12 @@
 <html>
   <head>
     <meta charset="utf-8">
+    <!-- TODO
     <link rel="icon" type="image/png" href="favicon.png" sizes="48x48" />
     <link rel="icon" type="image/png" href="android-touch-icon.png" sizes="192x192" />
     <link rel="apple-touch-icon" type="image/png" href="apple-touch-icon.png" sizes="144x144" />
     <link rel="manifest" href="manifest.json">
+    -->
     <title>Pixcil</title>
     <style>
       body {
@@ -46,8 +48,13 @@
       const canvas = document.getElementById("canvas");
       const canvasArea = document.getElementById("canvas-area");
       const wasmPath = "./pixcil.wasm";
-      Pixcil.App.load({wasmPath, canvas, canvasArea, parent: window})
-                .then((app) => app.run())
+      const workspacePath = "../images/2023/drill_dog.png"; // TODO: get from query string
+      fetch(workspacePath).then((response) => response.arrayBuffer())
+                .then(async (buffer) => {
+                    const workspace = new Uint8Array(buffer);
+                    const app = await Pixcil.App.load({wasmPath, canvas, canvasArea, parent: window, workspace});
+                    app.run();
+                })
                 .catch((e) => console.warn(e));
     </script>
   </body>
