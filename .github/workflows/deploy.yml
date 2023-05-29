@@ -1,0 +1,41 @@
+name: Deploy
+
+# Controls when the workflow will run
+on:
+  push:
+    branches: [ "main" ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install wasm32-unknown-unknown target
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+      - name: Generate site
+        uses: actions-rs/cargo@v1
+        with:
+          command: run
+          args: --release --manifest-path gensite/Cargo.toml
+      - name: Upload GitHub Pages artifacts
+        uses: actions/upload-pages-artifact@v1
+
+  deploy:
+    needs: build
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v1
