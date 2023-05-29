@@ -4,13 +4,13 @@ use std::path::PathBuf;
 fn main() -> orfail::Result<()> {
     std::fs::create_dir_all("_site/").or_fail()?;
     std::fs::write("_site/index.html", "<h1>Hello, world!</h1>").or_fail()?;
+    std::fs::copy("gensite/src/image.html", "_site/image.html").or_fail()?; // TODO
 
     let png_files = PngFiles::collect().or_fail()?;
     eprintln!("PNG files: {}", png_files.files.len());
 
     for src_path in &png_files.files {
-        let dst_path =
-            PathBuf::from("_site/images/").join(src_path.strip_prefix("src/").or_fail()?);
+        let dst_path = PathBuf::from("_site/").join(src_path.strip_prefix("src/").or_fail()?);
         std::fs::create_dir_all(dst_path.parent().or_fail()?).or_fail()?;
         std::fs::copy(src_path, dst_path).or_fail()?;
     }
