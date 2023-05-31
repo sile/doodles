@@ -58,23 +58,30 @@ fn generate_image_html(src_path: &PathBuf, model: &PixcilModel) -> orfail::Resul
             rgb.r, rgb.g, rgb.b, rgb.a as f32 / 255.0
         ));
     }
+
+    let update_date = time::Date::from_calendar_date(1970, time::Month::January, 1).or_fail()?
+        + model.config.attrs.updated_time.unwrap_or_default();
+    let update_date = update_date
+        .format(&time::format_description::parse("[year]-[month]-[day]").or_fail()?)
+        .or_fail()?;
+
+    let description = format!(
+        "canvas size: {}x{}, palette size: {}, update date: {}",
+        size.width,
+        size.height,
+        model.palette().len(),
+        update_date
+    );
+
     let html = IMAGE_HTML_TEMPLATE
         .replace("__NAME__", &name)
+        .replace("__DESCRIPTION__", &description)
         .replace("__SIZE__", &format!("{}x{}", size.width, size.height))
         .replace(
             "__PALETTE__",
             &format!("{} {}", model.palette().len().to_string(), palette),
         )
-        .replace(
-            "__UPDATED_TIME__",
-            &model
-                .config
-                .attrs
-                .updated_time
-                .unwrap_or_default()
-                .as_secs()
-                .to_string(),
-        );
+        .replace("__UPDATE_DATE__", &update_date);
 
     let dst_path = PathBuf::from("_site/")
         .join(src_path.strip_prefix("src/").or_fail()?)

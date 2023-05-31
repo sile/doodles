@@ -1,6 +1,8 @@
 <html>
   <head prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article#">
-    <meta property="og:title" content="__NAME__" />
+    <meta charset="utf-8">
+
+    <meta property="og:title" content="[__SIZE__] __NAME__ - __UPDATE_DATE__" />
     <meta property="og:url" content="https://sile.github.io/doodles/__NAME__.html" />
     <meta property="og:image" content="https://sile.github.io/doodles/__NAME__.thumb.png" />
     <meta property="og:description" content="__DESCRIPTION__" />
@@ -17,14 +19,20 @@
 
     <link rel="icon" type="image/png" href="favicon.png" sizes="48x48" />
 
-    <title>Pixcil Doodle: __NAME__</title>
+    <title>__NAME__</title>
   </head>
-  <body>
-    <img src="https://sile.github.io/doodles/__NAME__.thumb.png" /><br />
-    <a href="https://sile.github.io/pixcil?load=https://sile.github.io/doodles/__NAME__.png">Open in Pixcil</a><br />
-    <a href="https://github.com/sile/doodles/tree/main/src/__NAME__.png">Open in GitHub</a><br />
-    Canvas Size: __SIZE__<br />
-    Palette: __PALETTE__<br />
-    Updated Time: __UPDATED_TIME__<br />
+  <body style="background-color: rgb(220,220,220)">
+    <div align="center">
+      <h1>[__SIZE__] __NAME__ - __UPDATE_DATE__</h1>
+      <div>
+        <a href="https://sile.github.io/pixcil?load=https://sile.github.io/doodles/__NAME__.png">Open in Pixcil</a> &nbsp;|&nbsp;
+        <a href="https://github.com/sile/doodles/tree/main/src/__NAME__.png">Open in GitHub</a>
+      </div>
+
+      <div style="width:auto; height:auto; box-shadow:2px 2px 6px rgba(0,0,0,.4); margin:2%">
+        <div style="width:auto; height:auto; padding-top:100%; background:url(https://sile.github.io/doodles/__NAME__.thumb.png) no-repeat center; background-size:cover; box-sizing:border-box"></div>
+        Palette: __PALETTE__<br />
+      </div>
+    </div>
   </body>
 </html>
