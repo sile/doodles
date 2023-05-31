@@ -46,10 +46,23 @@ fn generate_image_html(src_path: &PathBuf, model: &PixcilModel) -> orfail::Resul
         .or_fail()?
         .to_owned();
     let size = model.frame_size();
+
+    let mut palette = String::new();
+    let mut colors = model.palette().into_iter().collect::<Vec<_>>();
+    colors.sort_by_cached_key(|rgb| Hsv::from_rgb(rgb.r, rgb.g, rgb.b).to_sort_key());
+    for rgb in colors {
+        palette.push_str(&format!(
+            r#"<div style="display:inline-block; width:32px; height:32px; background:rgb({},{},{},{})"></div>"#,
+            rgb.r, rgb.g, rgb.b, rgb.a as f32 / 255.0
+        ));
+    }
     let html = IMAGE_HTML_TEMPLATE
         .replace("__NAME__", &name)
         .replace("__SIZE__", &format!("{}x{}", size.width, size.height))
-        .replace("__PALETTE__", &model.palette().len().to_string())
+        .replace(
+            "__PALETTE__",
+            &format!("{} {}", model.palette().len().to_string(), palette),
+        )
         .replace(
             "__CREATED_TIME__",
             &model
@@ -101,5 +114,48 @@ impl PngFiles {
             }
         }
         Ok(Self { files })
+    }
+}
+
+#[derive(Debug, Clone, Copy, PartialEq)]
+struct Hsv {
+    h: f64,
+    s: f64,
+    v: f64,
+}
+
+impl Hsv {
+    fn from_rgb(r: u8, g: u8, b: u8) -> Self {
+        let r = r as f64 / 255.0;
+        let g = g as f64 / 255.0;
+        let b = b as f64 / 255.0;
+        let max = r.max(g).max(b);
+        let min = r.min(g).min(b);
+        let n = max - min;
+
+        let s = if max == 0.0 { 0.0 } else { n / max };
+        let v = max;
+        let h = if n == 0.0 {
+            0.0
+        } else if max == r {
+            if g < b {
+                6.0 + g / n - b / n
+            } else {
+                (g - b) / n
+            }
+        } else if max == g {
+            2.0 + b / n - r / n
+        } else {
+            4.0 + r / n - g / n
+        } / 6.0;
+
+        Self { h, s, v }
+    }
+
+    fn to_sort_key(self) -> (u8, u8) {
+        (
+            (self.h * 6.0).round() as u8,
+            ((self.s * 0.5 + self.v * 0.5) * 255.0).round() as u8,
+        )
     }
 }
