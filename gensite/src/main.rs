@@ -77,10 +77,7 @@ fn generate_image_html(src_path: &PathBuf, model: &PixcilModel) -> orfail::Resul
         .replace("__NAME__", &name)
         .replace("__DESCRIPTION__", &description)
         .replace("__SIZE__", &format!("{}x{}", size.width, size.height))
-        .replace(
-            "__PALETTE__",
-            &format!("{} {}", model.palette().len().to_string(), palette),
-        )
+        .replace("__PALETTE__", &palette)
         .replace("__UPDATE_DATE__", &update_date);
 
     let dst_path = PathBuf::from("_site/")
