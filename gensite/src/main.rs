@@ -3,9 +3,11 @@ use pixcil::model::Models as PixcilModel;
 use std::path::PathBuf;
 
 pub const IMAGE_HTML_TEMPLATE: &str = include_str!("image.html");
+pub const FAVICON: &[u8] = include_bytes!("favicon.png");
 
 fn main() -> orfail::Result<()> {
     std::fs::create_dir_all("_site/").or_fail()?;
+    std::fs::write("_site/favicon.png", FAVICON).or_fail()?;
 
     let png_files = PngFiles::collect().or_fail()?;
     eprintln!("PNG files: {}", png_files.files.len());
@@ -62,16 +64,6 @@ fn generate_image_html(src_path: &PathBuf, model: &PixcilModel) -> orfail::Resul
         .replace(
             "__PALETTE__",
             &format!("{} {}", model.palette().len().to_string(), palette),
-        )
-        .replace(
-            "__CREATED_TIME__",
-            &model
-                .config
-                .attrs
-                .created_time
-                .unwrap_or_default()
-                .as_secs()
-                .to_string(),
         )
         .replace(
             "__UPDATED_TIME__",
