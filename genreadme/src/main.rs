@@ -58,7 +58,10 @@ impl PngFiles {
         for path in &self.files {
             let data = std::fs::read(path).or_fail()?;
             let model = PixcilModels::from_png(&data).or_fail()?;
-            updated_times.insert(path.clone(), model.attrs.updated_time.unwrap_or_default());
+            updated_times.insert(
+                path.clone(),
+                model.config.attrs.updated_time.unwrap_or_default(),
+            );
         }
         self.files.sort_by_key(|path| &updated_times[path]);
         self.files.reverse();
