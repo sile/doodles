@@ -5,7 +5,7 @@ use std::{collections::HashMap, path::PathBuf};
 const README_HEADER: &str = r#"Pixcil Doodles
 ==============
 
-My pixel art doodles drawn by using [Pixcil](https://github.com/sile/pixcil).
+My pixel art doodles drawn with [Pixcil](https://github.com/sile/pixcil).
 
 ---
 "#;
