@@ -28,7 +28,10 @@ fn generate_thumbnail(src_path: &PathBuf, model: &PixcilModel) -> orfail::Result
         .join(src_path.strip_prefix("src/").or_fail()?)
         .with_extension("thumb.png");
 
-    let thumbnail = model.to_thumbnail_png(4).or_fail()?;
+    let size = model.frame_size();
+    let min_size = size.width.min(size.height) as f32;
+    let scale = (800.0 / min_size).ceil() as usize;
+    let thumbnail = model.to_thumbnail_png(scale).or_fail()?;
     std::fs::write(&dst_path, thumbnail).or_fail()?;
 
     Ok(())
