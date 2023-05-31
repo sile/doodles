@@ -13,7 +13,9 @@ My pixel art doodles drawn with [Pixcil](https://github.com/sile/pixcil).
 fn main() -> orfail::Result<()> {
     println!("{README_HEADER}");
 
-    let png_files = PngFiles::collect().or_fail()?;
+    let mut png_files = PngFiles::collect().or_fail()?;
+    png_files.sort().or_fail()?;
+
     for path in png_files.files {
         let name = path
             .strip_prefix("src/")
