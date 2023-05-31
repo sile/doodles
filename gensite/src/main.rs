@@ -1,4 +1,5 @@
 use orfail::OrFail;
+use pixcil::model::Models as PixcilModel;
 use std::path::PathBuf;
 
 pub const IMAGE_HTML_TEMPLATE: &str = include_str!("image.html");
@@ -14,25 +15,26 @@ fn main() -> orfail::Result<()> {
         std::fs::create_dir_all(dst_path.parent().or_fail()?).or_fail()?;
         std::fs::copy(src_path, dst_path).or_fail()?;
 
-        generate_thumbnail(&src_path).or_fail()?;
-        generate_image_html(&src_path).or_fail()?;
+        let model = PixcilModel::from_png(&std::fs::read(src_path).or_fail()?).or_fail()?;
+        generate_thumbnail(&src_path, &model).or_fail()?;
+        generate_image_html(&src_path, &model).or_fail()?;
     }
 
     Ok(())
 }
 
-fn generate_thumbnail(src_path: &PathBuf) -> orfail::Result<()> {
+fn generate_thumbnail(src_path: &PathBuf, model: &PixcilModel) -> orfail::Result<()> {
     let dst_path = PathBuf::from("_site/")
         .join(src_path.strip_prefix("src/").or_fail()?)
         .with_extension("thumb.png");
 
-    // TODO: resize if need
-    std::fs::copy(src_path, dst_path).or_fail()?;
+    let thumbnail = model.to_thumbnail_png(4).or_fail()?;
+    std::fs::write(&dst_path, thumbnail).or_fail()?;
 
     Ok(())
 }
 
-fn generate_image_html(src_path: &PathBuf) -> orfail::Result<()> {
+fn generate_image_html(src_path: &PathBuf, model: &PixcilModel) -> orfail::Result<()> {
     let name = src_path
         .strip_prefix("src/")
         .or_fail()?
@@ -40,7 +42,31 @@ fn generate_image_html(src_path: &PathBuf) -> orfail::Result<()> {
         .to_str()
         .or_fail()?
         .to_owned();
-    let html = IMAGE_HTML_TEMPLATE.replace("__NAME__", &name);
+    let size = model.frame_size();
+    let html = IMAGE_HTML_TEMPLATE
+        .replace("__NAME__", &name)
+        .replace("__SIZE__", &format!("{}x{}", size.width, size.height))
+        .replace("__PALETTE__", &model.palette().len().to_string())
+        .replace(
+            "__CREATED_TIME__",
+            &model
+                .config
+                .attrs
+                .created_time
+                .unwrap_or_default()
+                .as_secs()
+                .to_string(),
+        )
+        .replace(
+            "__UPDATED_TIME__",
+            &model
+                .config
+                .attrs
+                .updated_time
+                .unwrap_or_default()
+                .as_secs()
+                .to_string(),
+        );
 
     let dst_path = PathBuf::from("_site/")
         .join(src_path.strip_prefix("src/").or_fail()?)

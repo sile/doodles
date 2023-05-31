@@ -1,5 +1,6 @@
 use orfail::OrFail;
-use std::path::PathBuf;
+use pixcil::model::Models as PixcilModels;
+use std::{collections::HashMap, path::PathBuf};
 
 const README_HEADER: &str = r#"Pixcil Doodles
 ==============
@@ -49,9 +50,18 @@ impl PngFiles {
                 }
             }
         }
-
-        // TODO: order by update time
-
         Ok(Self { files })
+    }
+
+    pub fn sort(&mut self) -> orfail::Result<()> {
+        let mut updated_times = HashMap::new();
+        for path in &self.files {
+            let data = std::fs::read(path).or_fail()?;
+            let model = PixcilModels::from_png(&data).or_fail()?;
+            updated_times.insert(path.clone(), model.attrs.updated_time.unwrap_or_default());
+        }
+        self.files.sort_by_key(|path| &updated_times[path]);
+        self.files.reverse();
+        Ok(())
     }
 }
