@@ -1,6 +1,7 @@
 use orfail::OrFail;
 use pixcil::model::Models as PixcilModel;
 use std::path::PathBuf;
+use std::time::Duration;
 
 pub const IMAGE_HTML_TEMPLATE: &str = include_str!("image.html");
 pub const FAVICON: &[u8] = include_bytes!("favicon.png");
@@ -12,6 +13,9 @@ fn main() -> orfail::Result<()> {
     let png_files = PngFiles::collect().or_fail()?;
     eprintln!("PNG files: {}", png_files.files.len());
 
+    let repo = git2::Repository::open(".").or_fail()?;
+    let finder = UpdateTimeFinder::new(&repo).or_fail()?;
+
     for src_path in &png_files.files {
         let dst_path = PathBuf::from("_site/").join(src_path.strip_prefix("src/").or_fail()?);
         std::fs::create_dir_all(dst_path.parent().or_fail()?).or_fail()?;
@@ -19,7 +23,7 @@ fn main() -> orfail::Result<()> {
 
         let model = PixcilModel::from_png(&std::fs::read(src_path).or_fail()?).or_fail()?;
         generate_thumbnail(&src_path, &model).or_fail()?;
-        generate_image_html(&src_path, &model).or_fail()?;
+        generate_image_html(&src_path, &model, &finder).or_fail()?;
     }
 
     Ok(())
@@ -39,7 +43,11 @@ fn generate_thumbnail(src_path: &PathBuf, model: &PixcilModel) -> orfail::Result
     Ok(())
 }
 
-fn generate_image_html(src_path: &PathBuf, model: &PixcilModel) -> orfail::Result<()> {
+fn generate_image_html(
+    src_path: &PathBuf,
+    model: &PixcilModel,
+    finder: &UpdateTimeFinder,
+) -> orfail::Result<()> {
     let name = src_path
         .strip_prefix("src/")
         .or_fail()?
@@ -60,7 +68,7 @@ fn generate_image_html(src_path: &PathBuf, model: &PixcilModel) -> orfail::Resul
     }
 
     let update_date = time::Date::from_calendar_date(1970, time::Month::January, 1).or_fail()?
-        + model.config.attrs.updated_time.unwrap_or_default();
+        + finder.find(src_path).or_fail()?;
     let update_date = update_date
         .format(&time::format_description::parse("[year]-[month]-[day]").or_fail()?)
         .or_fail()?;
@@ -144,5 +152,33 @@ impl Hsv {
             (self.h * 6.0).round() as u8,
             ((self.s * 0.5 + self.v * 0.5) * 255.0).round() as u8,
         )
+    }
+}
+
+#[derive(Debug)]
+pub struct UpdateTimeFinder<'a> {
+    head_commit: git2::Commit<'a>,
+}
+
+impl<'a> UpdateTimeFinder<'a> {
+    fn new(repo: &'a git2::Repository) -> orfail::Result<Self> {
+        let head = repo.head().or_fail()?;
+        let oid = head.target().or_fail()?;
+        let head_commit = repo.find_commit(oid).or_fail()?;
+        Ok(Self { head_commit })
+    }
+
+    fn find(&self, path: &PathBuf) -> orfail::Result<Duration> {
+        let mut commit = self.head_commit.clone();
+        let oid = commit.tree().or_fail()?.get_path(path).or_fail()?.id();
+        let mut unixtime = Duration::from_secs(commit.time().seconds() as u64);
+        while let Some(parent) = commit.parents().next() {
+            commit = parent;
+            if oid != commit.tree().or_fail()?.get_path(path).or_fail()?.id() {
+                break;
+            }
+            unixtime = Duration::from_secs(commit.time().seconds() as u64);
+        }
+        Ok(unixtime)
     }
 }

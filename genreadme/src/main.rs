@@ -1,6 +1,5 @@
 use orfail::OrFail;
-use pixcil::model::Models as PixcilModels;
-use std::{collections::HashMap, path::PathBuf};
+use std::{collections::HashMap, path::PathBuf, time::Duration};
 
 const README_HEADER: &str = r#"Pixcil Doodles
 ==============
@@ -32,6 +31,34 @@ fn main() -> orfail::Result<()> {
 }
 
 #[derive(Debug)]
+pub struct UpdateTimeFinder<'a> {
+    head_commit: git2::Commit<'a>,
+}
+
+impl<'a> UpdateTimeFinder<'a> {
+    fn new(repo: &'a git2::Repository) -> orfail::Result<Self> {
+        let head = repo.head().or_fail()?;
+        let oid = head.target().or_fail()?;
+        let head_commit = repo.find_commit(oid).or_fail()?;
+        Ok(Self { head_commit })
+    }
+
+    fn find(&self, path: &PathBuf) -> orfail::Result<Duration> {
+        let mut commit = self.head_commit.clone();
+        let oid = commit.tree().or_fail()?.get_path(path).or_fail()?.id();
+        let mut unixtime = Duration::from_secs(commit.time().seconds() as u64);
+        while let Some(parent) = commit.parents().next() {
+            commit = parent;
+            if oid != commit.tree().or_fail()?.get_path(path).or_fail()?.id() {
+                break;
+            }
+            unixtime = Duration::from_secs(commit.time().seconds() as u64);
+        }
+        Ok(unixtime)
+    }
+}
+
+#[derive(Debug)]
 pub struct PngFiles {
     pub files: Vec<PathBuf>,
 }
@@ -56,14 +83,12 @@ impl PngFiles {
     }
 
     pub fn sort(&mut self) -> orfail::Result<()> {
+        let repo = git2::Repository::open(".").or_fail()?;
+        let finder = UpdateTimeFinder::new(&repo).or_fail()?;
+
         let mut updated_times = HashMap::new();
         for path in &self.files {
-            let data = std::fs::read(path).or_fail()?;
-            let model = PixcilModels::from_png(&data).or_fail()?;
-            updated_times.insert(
-                path.clone(),
-                model.config.attrs.updated_time.unwrap_or_default(),
-            );
+            updated_times.insert(path.clone(), finder.find(path).or_fail()?);
         }
         self.files.sort_by_key(|path| &updated_times[path]);
         self.files.reverse();
