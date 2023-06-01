@@ -174,7 +174,10 @@ impl<'a> UpdateTimeFinder<'a> {
         let mut unixtime = Duration::from_secs(commit.time().seconds() as u64);
         while let Some(parent) = commit.parents().next() {
             commit = parent;
-            if oid != commit.tree().or_fail()?.get_path(path).or_fail()?.id() {
+            let Ok(entry) = commit.tree().or_fail()?.get_path(path) else {
+                break;
+            };
+            if oid != entry.id() {
                 break;
             }
             unixtime = Duration::from_secs(commit.time().seconds() as u64);
