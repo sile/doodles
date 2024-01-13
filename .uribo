@@ -1,0 +1,9 @@
+{
+  "update-readme": {
+    "command": "fish",
+    "args": [
+      "-c",
+      "set fish_trace 1; cargo run --manifest-path genreadme/Cargo.toml > README.md; and git commit -am \"Update README.md\"; and git push origin main"
+    ]
+  }
+}
