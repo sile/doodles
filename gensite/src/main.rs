@@ -1,5 +1,6 @@
 use orfail::OrFail;
 use pixcil::model::Models as PixcilModel;
+use pixcil::pixel::PixelSize;
 use std::path::PathBuf;
 use std::time::Duration;
 
@@ -37,7 +38,7 @@ fn generate_thumbnail(src_path: &PathBuf, model: &PixcilModel) -> orfail::Result
     let size = model.frame_size();
     let min_size = size.width.min(size.height) as f32;
     let scale = (800.0 / min_size).ceil() as usize;
-    let thumbnail = model.to_thumbnail_png(scale).or_fail()?;
+    let thumbnail = to_thumbnail_png(&model, scale).or_fail()?;
     std::fs::write(&dst_path, thumbnail).or_fail()?;
 
     Ok(())
@@ -184,4 +185,63 @@ impl<'a> UpdateTimeFinder<'a> {
         }
         Ok(unixtime)
     }
+}
+
+fn to_thumbnail_png(model: &PixcilModel, scale: usize) -> orfail::Result<Vec<u8>> {
+    (scale > 0).or_fail()?;
+    let frame_count = model.config.animation.enabled_frame_count();
+    let size = model.frame_size();
+    let image_size = PixelSize::from_wh(size.width * scale as u16, size.height * scale as u16);
+
+    let mut png_data = Vec::new();
+    {
+        let mut encoder = png::Encoder::new(
+            &mut png_data,
+            u32::from(image_size.width),
+            u32::from(image_size.height),
+        );
+        encoder.set_color(png::ColorType::Rgba);
+        encoder.set_depth(png::BitDepth::Eight);
+
+        if frame_count > 1 {
+            encoder.set_animated(frame_count as u32, 0).or_fail()?;
+            encoder
+                .set_frame_delay(1, model.config.animation.fps() as u16)
+                .or_fail()?;
+        }
+
+        let mut writer = encoder.write_header().or_fail()?;
+
+        for frame in 0..frame_count {
+            let mut image_data =
+                vec![0; image_size.width as usize * image_size.height as usize * 4];
+            for (i, position) in model
+                .config
+                .frame
+                .get_preview_region(&model.config, frame as usize)
+                .pixels()
+                .enumerate()
+            {
+                let color = model.pixel_canvas.get_pixel(&model.config, position);
+                let Some(color) = color else {
+                    continue;
+                };
+
+                let y_base = i / size.width as usize * scale;
+                let x_base = i % size.width as usize * scale;
+                for y_delta in 0..scale {
+                    for x_delta in 0..scale {
+                        let i = (y_base + y_delta) * image_size.width as usize * 4
+                            + (x_base + x_delta) * 4;
+                        image_data[i] = color.r;
+                        image_data[i + 1] = color.g;
+                        image_data[i + 2] = color.b;
+                        image_data[i + 3] = color.a;
+                    }
+                }
+            }
+            writer.write_image_data(&image_data).or_fail()?;
+        }
+    }
+    Ok(png_data)
 }
