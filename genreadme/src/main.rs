@@ -76,6 +76,9 @@ impl PngFiles {
                 let path = entry.path();
 
                 if path.is_dir() {
+                    if path.file_name() == Some("sketch".as_ref()) {
+                        continue;
+                    }
                     stack.push(path);
                 } else if path.extension().unwrap_or_default() == "png" {
                     files.push(path);
