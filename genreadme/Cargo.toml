@@ -7,5 +7,5 @@ publish = false
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-git2 = "0.17.2"
+git2 = { version = "0.18", default-features = false }
 orfail = "0.1.3"
