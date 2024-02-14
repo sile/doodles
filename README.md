@@ -5,6 +5,9 @@ My pixel art doodles drawn with [Pixcil](https://github.com/sile/pixcil).
 
 ---
 
+[![2024/caterpillar](https://sile.github.io/doodles/2024/caterpillar.png)](https://sile.github.io/doodles/2024/caterpillar.html)
+[![template/anime_sketch](https://sile.github.io/doodles/template/anime_sketch.png)](https://sile.github.io/doodles/template/anime_sketch.html)
+[![template/sketch](https://sile.github.io/doodles/template/sketch.png)](https://sile.github.io/doodles/template/sketch.html)
 [![2024/cat_watching_phone](https://sile.github.io/doodles/2024/cat_watching_phone.png)](https://sile.github.io/doodles/2024/cat_watching_phone.html)
 [![2024/water_duck](https://sile.github.io/doodles/2024/water_duck.png)](https://sile.github.io/doodles/2024/water_duck.html)
 [![2024/frog_jump](https://sile.github.io/doodles/2024/frog_jump.png)](https://sile.github.io/doodles/2024/frog_jump.html)
