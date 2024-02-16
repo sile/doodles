@@ -1,3 +1,4 @@
+use clap::Parser;
 use orfail::OrFail;
 use std::{collections::HashMap, path::PathBuf, time::Duration};
 
@@ -9,10 +10,21 @@ My pixel art doodles drawn with [Pixcil](https://github.com/sile/pixcil).
 ---
 "#;
 
+#[derive(Parser)]
+pub struct Args {
+    #[clap(long, default_value = "src")]
+    root_dir: PathBuf,
+
+    #[clap(long)]
+    exclude_dir: Option<String>,
+}
+
 fn main() -> orfail::Result<()> {
+    let args = Args::parse();
+
     println!("{README_HEADER}");
 
-    let mut png_files = PngFiles::collect().or_fail()?;
+    let mut png_files = PngFiles::collect(&args).or_fail()?;
     png_files.sort().or_fail()?;
 
     for path in png_files.files {
@@ -67,16 +79,16 @@ pub struct PngFiles {
 }
 
 impl PngFiles {
-    pub fn collect() -> orfail::Result<Self> {
+    pub fn collect(args: &Args) -> orfail::Result<Self> {
         let mut files = Vec::new();
-        let mut stack = vec!["src/".into()];
+        let mut stack = vec![args.root_dir.clone()];
         while let Some(path) = stack.pop() {
             for entry in std::fs::read_dir(path).or_fail()? {
                 let entry = entry.or_fail()?;
                 let path = entry.path();
 
                 if path.is_dir() {
-                    if path.file_name() == Some("sketch".as_ref()) {
+                    if path.file_name() == args.exclude_dir.as_ref().map(|d| d.as_ref()) {
                         continue;
                     }
                     stack.push(path);
