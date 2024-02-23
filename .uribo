@@ -3,7 +3,7 @@
     "command": "fish",
     "args": [
       "-c",
-      "set fish_trace 1; and cargo run --manifest-path genreadme/Cargo.toml -- --exclude-dir sketch > README.md; and cargo run --manifest-path genreadme/Cargo.toml -- --root-dir src/sketch/ > src/sketch/README.md; and git commit -am \"Update README.md\"; and git push origin main"
+      "set fish_trace 1; and git pull origin main; and cargo run --manifest-path genreadme/Cargo.toml -- --exclude-dir sketch > README.md; and cargo run --manifest-path genreadme/Cargo.toml -- --root-dir src/sketch/ > src/sketch/README.md; and git commit -am \"Update README.md\"; and git push origin main"
     ]
   }
 }
