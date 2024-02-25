@@ -5,6 +5,9 @@ My pixel art doodles drawn with [Pixcil](https://github.com/sile/pixcil).
 
 ---
 
+[![sketch/2024/02/pixcil-20240225_182753](https://sile.github.io/doodles/sketch/2024/02/pixcil-20240225_182753.png)](https://sile.github.io/doodles/sketch/2024/02/pixcil-20240225_182753.html)
+[![sketch/2024/02/pixcil-20240225_163337](https://sile.github.io/doodles/sketch/2024/02/pixcil-20240225_163337.png)](https://sile.github.io/doodles/sketch/2024/02/pixcil-20240225_163337.html)
+[![sketch/2024/02/pixcil-20240225_163659](https://sile.github.io/doodles/sketch/2024/02/pixcil-20240225_163659.png)](https://sile.github.io/doodles/sketch/2024/02/pixcil-20240225_163659.html)
 [![sketch/2024/02/pixcil-20240225_110501](https://sile.github.io/doodles/sketch/2024/02/pixcil-20240225_110501.png)](https://sile.github.io/doodles/sketch/2024/02/pixcil-20240225_110501.html)
 [![sketch/2024/02/pixcil-20240225_100344](https://sile.github.io/doodles/sketch/2024/02/pixcil-20240225_100344.png)](https://sile.github.io/doodles/sketch/2024/02/pixcil-20240225_100344.html)
 [![sketch/2024/02/pixcil-20240224_192911](https://sile.github.io/doodles/sketch/2024/02/pixcil-20240224_192911.png)](https://sile.github.io/doodles/sketch/2024/02/pixcil-20240224_192911.html)
