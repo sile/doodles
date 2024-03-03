@@ -5,6 +5,8 @@ My pixel art doodles drawn with [Pixcil](https://github.com/sile/pixcil).
 
 ---
 
+[![2024/sleeping_cat](https://sile.github.io/doodles/2024/sleeping_cat.png)](https://sile.github.io/doodles/2024/sleeping_cat.html)
+[![2024/snake_cow](https://sile.github.io/doodles/2024/snake_cow.png)](https://sile.github.io/doodles/2024/snake_cow.html)
 [![2024/ceratophrys_ornata](https://sile.github.io/doodles/2024/ceratophrys_ornata.png)](https://sile.github.io/doodles/2024/ceratophrys_ornata.html)
 [![2024/hermit_crab](https://sile.github.io/doodles/2024/hermit_crab.png)](https://sile.github.io/doodles/2024/hermit_crab.html)
 [![2024/soldier](https://sile.github.io/doodles/2024/soldier.png)](https://sile.github.io/doodles/2024/soldier.html)
