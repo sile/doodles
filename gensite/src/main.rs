@@ -189,6 +189,7 @@ impl<'a> UpdateTimeFinder<'a> {
 
 fn to_thumbnail_png(model: &PixcilModel, scale: usize) -> orfail::Result<Vec<u8>> {
     (scale > 0).or_fail()?;
+    let bg_color = model.config.background_color;
     let frame_count = model.config.animation.enabled_frame_count();
     let size = model.frame_size();
     let image_size = PixelSize::from_wh(size.width * scale as u16, size.height * scale as u16);
@@ -222,7 +223,10 @@ fn to_thumbnail_png(model: &PixcilModel, scale: usize) -> orfail::Result<Vec<u8>
                 .pixels()
                 .enumerate()
             {
-                let color = model.pixel_canvas.get_pixel(&model.config, position);
+                let color = model
+                    .pixel_canvas
+                    .get_pixel(&model.config, position)
+                    .or(bg_color);
                 let Some(color) = color else {
                     continue;
                 };
