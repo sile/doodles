@@ -16,7 +16,7 @@ pub struct Args {
     root_dir: PathBuf,
 
     #[clap(long)]
-    exclude_dir: Option<String>,
+    exclude_dir: Vec<String>,
 }
 
 fn main() -> orfail::Result<()> {
@@ -88,7 +88,11 @@ impl PngFiles {
                 let path = entry.path();
 
                 if path.is_dir() {
-                    if path.file_name() == args.exclude_dir.as_ref().map(|d| d.as_ref()) {
+                    if args
+                        .exclude_dir
+                        .iter()
+                        .any(|d| Some(d.as_ref()) == path.file_name())
+                    {
                         continue;
                     }
                     stack.push(path);
