@@ -5,6 +5,7 @@ My pixel art doodles drawn with [Pixcil](https://github.com/sile/pixcil).
 
 ---
 
+[![2024/ok_0](https://sile.github.io/doodles/2024/ok_0.png)](https://sile.github.io/doodles/2024/ok_0.html)
 [![2024/raising_hand_0](https://sile.github.io/doodles/2024/raising_hand_0.png)](https://sile.github.io/doodles/2024/raising_hand_0.html)
 [![2024/face0](https://sile.github.io/doodles/2024/face0.png)](https://sile.github.io/doodles/2024/face0.html)
 [![2024/fried_egg](https://sile.github.io/doodles/2024/fried_egg.png)](https://sile.github.io/doodles/2024/fried_egg.html)
