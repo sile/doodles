@@ -6,6 +6,7 @@ My pixel art doodles drawn with [Pixcil](https://github.com/sile/pixcil).
 ---
 
 [![2024/birds](https://sile.github.io/doodles/2024/birds.png)](https://sile.github.io/doodles/2024/birds.html)
+[![2024/sunrise](https://sile.github.io/doodles/2024/sunrise.png)](https://sile.github.io/doodles/2024/sunrise.html)
 [![2024/running](https://sile.github.io/doodles/2024/running.png)](https://sile.github.io/doodles/2024/running.html)
 [![2024/alarm_clock](https://sile.github.io/doodles/2024/alarm_clock.png)](https://sile.github.io/doodles/2024/alarm_clock.html)
 [![2024/ok_0](https://sile.github.io/doodles/2024/ok_0.png)](https://sile.github.io/doodles/2024/ok_0.html)
@@ -27,9 +28,9 @@ My pixel art doodles drawn with [Pixcil](https://github.com/sile/pixcil).
 [![2024/mizu_manju](https://sile.github.io/doodles/2024/mizu_manju.png)](https://sile.github.io/doodles/2024/mizu_manju.html)
 [![2024/mole](https://sile.github.io/doodles/2024/mole.png)](https://sile.github.io/doodles/2024/mole.html)
 [![2024/mallard](https://sile.github.io/doodles/2024/mallard.png)](https://sile.github.io/doodles/2024/mallard.html)
-[![2023/slime_knight](https://sile.github.io/doodles/2023/slime_knight.png)](https://sile.github.io/doodles/2023/slime_knight.html)
 [![2023/scythe_girl](https://sile.github.io/doodles/2023/scythe_girl.png)](https://sile.github.io/doodles/2023/scythe_girl.html)
 [![2023/frog_hero](https://sile.github.io/doodles/2023/frog_hero.png)](https://sile.github.io/doodles/2023/frog_hero.html)
-[![2023/frog_girl](https://sile.github.io/doodles/2023/frog_girl.png)](https://sile.github.io/doodles/2023/frog_girl.html)
 [![2023/drill_dog](https://sile.github.io/doodles/2023/drill_dog.png)](https://sile.github.io/doodles/2023/drill_dog.html)
+[![2023/slime_knight](https://sile.github.io/doodles/2023/slime_knight.png)](https://sile.github.io/doodles/2023/slime_knight.html)
+[![2023/frog_girl](https://sile.github.io/doodles/2023/frog_girl.png)](https://sile.github.io/doodles/2023/frog_girl.html)
 
