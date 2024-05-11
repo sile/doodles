@@ -76,12 +76,18 @@ fn generate_image_html(
     let update_date = update_date
         .format(&time::format_description::parse("[year]-[month]-[day]").or_fail()?)
         .or_fail()?;
+    let padding_top = if size.width > size.height {
+        format!("{:.2}%", size.height as f32 / size.width as f32 * 100.0)
+    } else {
+        "100%".to_owned()
+    };
 
     let html = IMAGE_HTML_TEMPLATE
         .replace("__NAME__", &name)
         .replace("__SIZE__", &format!("{}x{}", size.width, size.height))
         .replace("__PALETTE__", &palette)
-        .replace("__UPDATE_DATE__", &update_date);
+        .replace("__UPDATE_DATE__", &update_date)
+        .replace("__PADDING_TOP__", &padding_top);
 
     let dst_path = PathBuf::from("_site/")
         .join(src_path.strip_prefix("src/").or_fail()?)
