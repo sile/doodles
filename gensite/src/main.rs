@@ -60,6 +60,9 @@ fn generate_image_html(
 
     let mut palette = String::new();
     let mut colors = model.palette().into_iter().collect::<Vec<_>>();
+    if let Some(bg_color) = model.config.background_color {
+        colors.push(bg_color);
+    }
     colors.sort_by_cached_key(|rgb| Hsv::from_rgb(rgb.r, rgb.g, rgb.b).to_sort_key());
     for rgb in colors {
         palette.push_str(&format!(
