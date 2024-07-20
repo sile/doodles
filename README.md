@@ -5,6 +5,7 @@ My pixel art doodles drawn with [Pixcil](https://github.com/sile/pixcil).
 
 ---
 
+[![2024/chiwawa](https://sile.github.io/doodles/2024/chiwawa.png)](https://sile.github.io/doodles/2024/chiwawa.html)
 [![2024/lying_dog](https://sile.github.io/doodles/2024/lying_dog.png)](https://sile.github.io/doodles/2024/lying_dog.html)
 [![2024/ok_cat_board](https://sile.github.io/doodles/2024/ok_cat_board.png)](https://sile.github.io/doodles/2024/ok_cat_board.html)
 [![2024/bananaman](https://sile.github.io/doodles/2024/bananaman.png)](https://sile.github.io/doodles/2024/bananaman.html)
