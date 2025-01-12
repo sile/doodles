@@ -5,6 +5,7 @@ My pixel art doodles drawn with [Pixcil](https://github.com/sile/pixcil).
 
 ---
 
+[![2025/raccoon-drawing-fox](https://sile.github.io/doodles/2025/raccoon-drawing-fox.png)](https://sile.github.io/doodles/2025/raccoon-drawing-fox.html)
 [![2024/singing_frog](https://sile.github.io/doodles/2024/singing_frog.png)](https://sile.github.io/doodles/2024/singing_frog.html)
 [![2024/square_mushroom](https://sile.github.io/doodles/2024/square_mushroom.png)](https://sile.github.io/doodles/2024/square_mushroom.html)
 [![2024/volleyball](https://sile.github.io/doodles/2024/volleyball.png)](https://sile.github.io/doodles/2024/volleyball.html)
