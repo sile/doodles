@@ -19,7 +19,7 @@ jobs:
       - name: Generate site
         run: cargo run --release --manifest-path gensite/Cargo.toml
       - name: Upload GitHub Pages artifacts
-        uses: actions/upload-pages-artifact@v1
+        uses: actions/upload-pages-artifact@v3
 
   deploy:
     needs: build
@@ -33,4 +33,4 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v1
+        uses: actions/deploy-pages@v4
