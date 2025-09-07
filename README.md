@@ -5,6 +5,9 @@ My pixel art doodles drawn with [Pixcil](https://github.com/sile/pixcil).
 
 ---
 
+[![2025/daijobu](https://sile.github.io/doodles/2025/daijobu.png)](https://sile.github.io/doodles/2025/daijobu.html)
+[![2025/suicame](https://sile.github.io/doodles/2025/suicame.png)](https://sile.github.io/doodles/2025/suicame.html)
+[![2025/cool-cat](https://sile.github.io/doodles/2025/cool-cat.png)](https://sile.github.io/doodles/2025/cool-cat.html)
 [![2025/nikuinu](https://sile.github.io/doodles/2025/nikuinu.png)](https://sile.github.io/doodles/2025/nikuinu.html)
 [![2025/cat_beam](https://sile.github.io/doodles/2025/cat_beam.png)](https://sile.github.io/doodles/2025/cat_beam.html)
 [![2025/raccoon-drawing-fox](https://sile.github.io/doodles/2025/raccoon-drawing-fox.png)](https://sile.github.io/doodles/2025/raccoon-drawing-fox.html)
